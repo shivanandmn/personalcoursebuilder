@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import os
-os.system("pip install -e .")
 from src.skill2resume_matrix import (
     generate_gap_matrix,
     llm_gap_scores,
