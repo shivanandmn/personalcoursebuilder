@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import PyPDF2
-import re
 from src.skill2resume_matrix import (
     generate_gap_matrix,
     llm_gap_scores,
