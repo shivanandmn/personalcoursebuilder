@@ -1,0 +1,1 @@
+ mongoimport --uri  mongodb+srv://shivanandnaduvin:FakAr8JVQ1xndm8T@cluster0.rt3b5.mongodb.net/<enter_database_name>  --collection  <enter_collection_name>  --type  <enter CSV/TSV>   --fields= <field1[,field2]>  --file  <enter path/to/file>

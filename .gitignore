@@ -1,0 +1,7 @@
+personalcoursebuilder.egg-info
+.vscode
+*/__pycache__
+*/**/__pycache__
+.env
+creds
+data/*/*
