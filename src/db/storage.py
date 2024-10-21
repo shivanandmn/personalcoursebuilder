@@ -3,9 +3,22 @@ from PIL import Image
 import io
 import os
 
+import toml
+import json
+
+# Load the TOML file
+with open('config.toml', 'r') as toml_file:
+    toml_data = toml.load(toml_file)
+
+json_data = json.dumps({key: value for key, value in toml_data.items() if key not in ["GOOGLE_API_KEY", "MONGODB_PASSWORD"]}, indent=4)
+
+# Save the JSON data to a file
+with open('config.json', 'w') as json_file:
+    json_file.write(json_data)
+
 # Initialize the Google Cloud Storage Client
 client = storage.Client.from_service_account_json(
-    "./creds/personalcoursebuilder-b09cb80a365e.json"
+    "config.json"
 )
 
 
