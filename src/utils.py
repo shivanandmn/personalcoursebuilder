@@ -26,3 +26,18 @@ def extract_pydantic_elements(obj):
         else:
             elements.append(f"{key}: {value}")
     return ", ".join(elements)
+
+
+def convert_nested_dict_keys_to_str(d):
+    """
+    Recursively convert all keys in a nested dictionary to strings.
+
+    :param d: Dictionary to be converted (may have nested dictionaries).
+    :return: A new dictionary with all keys converted to strings.
+    """
+    if isinstance(d, dict):
+        return {str(k): convert_nested_dict_keys_to_str(v) for k, v in d.items()}
+    elif isinstance(d, list):
+        return [convert_nested_dict_keys_to_str(item) for item in d]
+    else:
+        return d

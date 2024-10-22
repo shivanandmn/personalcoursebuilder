@@ -9,6 +9,7 @@ from src.skill2resume_matrix import (
 from src.recommender import CourseRecommenderPipeline
 from src.db.db_transact import DBTransaction
 from src.db.storage import GCPStorage
+from src.utils import convert_nested_dict_keys_to_str
 
 # Streamlit UI
 st.title("Job Recommendation System for Freshers")
@@ -139,7 +140,7 @@ if st.sidebar.button("Submit"):
                 folder_path="resume_dataset",
             )
         save_data = {
-            k: (v.to_dict() if isinstance(v, pd.DataFrame) else v)
+            k: (converted_nested_dict_keys_to_str(v.to_dict()) if isinstance(v, pd.DataFrame) else v)
             for k, v in rec_results.items()
         }
         save_data["jd_url"] = jd_url
