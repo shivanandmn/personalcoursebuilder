@@ -12,7 +12,7 @@ genai.configure(api_key=GOOGLE_API_KEY)
 
 
 class LLMGen:
-    def __init__(self, model_name="gemini-1.5-flash", generation_config=None) -> None:
+    def __init__(self, model_name="gemini-1.5-flash-001", generation_config=None) -> None:
         self.model_name = model_name
         self.model = genai.GenerativeModel(
             model_name=model_name, generation_config=generation_config

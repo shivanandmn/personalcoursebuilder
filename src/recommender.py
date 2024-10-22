@@ -10,7 +10,7 @@ from src.db.db_transact import DBTransaction
 
 
 class CourseRecommenderPipeline(DBEmbedder):
-    def __init__(self, course_file_path, model_name="paraphrase-MiniLM-L12-v2"):
+    def __init__(self, course_file_path=None, model_name="paraphrase-MiniLM-L12-v2"):
         super().__init__(course_file_path=None, model_name=model_name)
         self.db_transaction = DBTransaction(db_name="course_builder")
 
