@@ -1,5 +1,5 @@
 -e .
-pdfminer
+pdfminer.six
 pandas==2.2.3
 # pdfplumber==0.11.4
 langchain-google-genai==2.0.1
