@@ -25,9 +25,9 @@ if st.sidebar.button("Submit"):
         # Adding a 30-second wait time with a progress bar
         st.sidebar.write("Reading the files and Getting you personalized recommendations...")
         progress_bar = st.sidebar.progress(0)
-        for i in range(40):
+        for i in range(80):
             time.sleep(1)
-            progress_bar.progress((i + 1) / 40)
+            progress_bar.progress((i + 1) / 80)
 
         # Generate Gap Matrix
         gap_scores, df_gap, parsed_resume, parsed_jd = generate_gap_matrix(
@@ -126,12 +126,13 @@ if st.sidebar.button("Submit"):
             st.json(parsed_jd.model_dump_json())
         with st.expander("Parsed Resume Data"):
             st.json(parsed_resume.model_dump_json())
-
+        job_desc_file.seek(0)
         jd_url = gcp_storage.upload_file(
                 job_desc_file,
                 destination_blob_name=job_desc_file.name,
                 folder_path="job_description",
             )
+        resume_file.seek(0)
         resume_url = gcp_storage.upload_file(
                 resume_file,
                 destination_blob_name=resume_file.name,
