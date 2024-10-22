@@ -23,7 +23,7 @@ gcp_storage = GCPStorage(bucket_name="course_builder_dataset")
 if st.sidebar.button("Submit"):
     if job_desc_file and resume_file:
         # Adding a 30-second wait time with a progress bar
-        st.sidebar.write("Reading the files and building personalized recommendations...")
+        st.sidebar.write("Reading the files and Getting you personalized recommendations...")
         progress_bar = st.sidebar.progress(0)
         for i in range(40):
             time.sleep(1)
@@ -127,16 +127,13 @@ if st.sidebar.button("Submit"):
         with st.expander("Parsed Resume Data"):
             st.json(parsed_resume.model_dump_json())
 
-        with open(job_desc_file, "rb") as file_obj:
-            jd_url = gcp_storage.upload_file(
-                file_obj,
+        jd_url = gcp_storage.upload_file(
+                job_desc_file,
                 destination_blob_name=job_desc_file.name,
                 folder_path="job_description",
             )
-
-        with open(resume_file, "rb") as file_obj:
-            resume_url = gcp_storage.upload_file(
-                file_obj,
+        resume_url = gcp_storage.upload_file(
+                resume_file,
                 destination_blob_name=resume_file.name,
                 folder_path="resume_dataset",
             )
