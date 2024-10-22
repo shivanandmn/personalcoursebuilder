@@ -127,14 +127,14 @@ if st.sidebar.button("Submit"):
         with st.expander("Parsed Resume Data"):
             st.json(parsed_resume.model_dump_json())
 
-        with open(job_desc_file.name, "rb") as file_obj:
+        with open(job_desc_file, "rb") as file_obj:
             jd_url = gcp_storage.upload_file(
                 file_obj,
                 destination_blob_name=job_desc_file.name,
                 folder_path="job_description",
             )
 
-        with open(resume_file.name, "rb") as file_obj:
+        with open(resume_file, "rb") as file_obj:
             resume_url = gcp_storage.upload_file(
                 file_obj,
                 destination_blob_name=resume_file.name,

@@ -30,11 +30,11 @@ class Project(BaseModel):
 
     title: str = Field(..., description="The title of the project.")
     description: Optional[str] = Field(
-        description="A brief description of the project."
+        description="Description of the project."
     )
     type: ProjectType = Field(
         "no-mention",
-        description="Classify the project as 'personal', 'internship', 'company', 'no-mention', 'open-source'",
+        description="Classify the project as 'personal'(project is done without any external help), 'internship' (project is done in the internship), 'company'(project is done in a company), 'no-mention'(project is not mentioned), 'open-source'(project is open-source contribution)",
     )
 
 
