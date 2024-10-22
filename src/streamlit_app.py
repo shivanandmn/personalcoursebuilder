@@ -125,7 +125,7 @@ if st.sidebar.button("Submit"):
         jd_url = gcp_storage.upload_file(
             job_desc_file.name,
             destination_blob_name=job_desc_file.name,
-            folder="job_description",
+            folder_path="job_description",
         )
         resume_url = gcp_storage.upload_file(
             resume_file.name,
