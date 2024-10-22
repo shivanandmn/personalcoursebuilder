@@ -23,11 +23,11 @@ gcp_storage = GCPStorage(bucket_name="course_builder_dataset")
 if st.sidebar.button("Submit"):
     if job_desc_file and resume_file:
         # Adding a 30-second wait time with a progress bar
-        st.sidebar.write("Processing your files, please wait...")
+        st.sidebar.write("Reading the files and building personalized recommendations...")
         progress_bar = st.sidebar.progress(0)
-        for i in range(30):
+        for i in range(40):
             time.sleep(1)
-            progress_bar.progress((i + 1) / 30)
+            progress_bar.progress((i + 1) / 40)
 
         # Generate Gap Matrix
         gap_scores, df_gap, parsed_resume, parsed_jd = generate_gap_matrix(
@@ -36,7 +36,6 @@ if st.sidebar.button("Submit"):
 
         # Initialize Course Recommender Pipeline
         course_recommender = CourseRecommenderPipeline(
-            "./data/raw/course/courses_103190.csv"
         )
         user_preferences = {
             "min_duration": 1,
@@ -128,16 +127,19 @@ if st.sidebar.button("Submit"):
         with st.expander("Parsed Resume Data"):
             st.json(parsed_resume.model_dump_json())
 
-        jd_url = gcp_storage.upload_file(
-            job_desc_file.name,
-            destination_blob_name=job_desc_file.name,
-            folder_path="job_description",
-        )
-        resume_url = gcp_storage.upload_file(
-            resume_file.name,
-            destination_blob_name=resume_file.name,
-            folder_path="resume_dataset",
-        )
+        with open(job_desc_file.name, "rb") as file_obj:
+            jd_url = gcp_storage.upload_file(
+                file_obj,
+                destination_blob_name=job_desc_file.name,
+                folder_path="job_description",
+            )
+
+        with open(resume_file.name, "rb") as file_obj:
+            resume_url = gcp_storage.upload_file(
+                file_obj,
+                destination_blob_name=resume_file.name,
+                folder_path="resume_dataset",
+            )
         save_data = {
             k: (v.to_dict() if isinstance(v, pd.DataFrame) else v)
             for k, v in rec_results.items()
