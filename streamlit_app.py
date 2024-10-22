@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import os
+import time
 from src.skill2resume_matrix import (
     generate_gap_matrix,
     llm_gap_scores,
@@ -8,7 +9,6 @@ from src.skill2resume_matrix import (
 from src.recommender import CourseRecommenderPipeline
 from src.db.db_transact import DBTransaction
 from src.db.storage import GCPStorage
-
 
 # Streamlit UI
 st.title("Job Recommendation System for Freshers")
@@ -22,6 +22,12 @@ gcp_storage = GCPStorage(bucket_name="course_builder_dataset")
 
 if st.sidebar.button("Submit"):
     if job_desc_file and resume_file:
+        # Adding a 30-second wait time with a progress bar
+        st.sidebar.write("Processing your files, please wait...")
+        progress_bar = st.sidebar.progress(0)
+        for i in range(30):
+            time.sleep(1)
+            progress_bar.progress((i + 1) / 30)
 
         # Generate Gap Matrix
         gap_scores, df_gap, parsed_resume, parsed_jd = generate_gap_matrix(

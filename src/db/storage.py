@@ -27,13 +27,13 @@ class GCPStorage:
     def __init__(self, bucket_name: str) -> None:
         self.bucket = client.bucket(bucket_name)
 
-    def upload_file(self, file_path, destination_blob_name=None, folder_path=""):
+    def upload_file(self, file_obj, destination_blob_name=None, folder_path=""):
         """Uploads a file to the GCP bucket."""
         if destination_blob_name is None:
-            destination_blob_name = file_path.split("/")[-1]
+            destination_blob_name = file_obj.name
         destination_blob_name = os.path.join(folder_path, destination_blob_name)
         blob = self.bucket.blob(destination_blob_name)
-        blob.upload_from_filename(file_path)
+        blob.upload_from_file(file_obj)
         return blob.public_url  # Returns the public URL of the uploaded file
 
     def upload_image(self, image: Image, destination_blob_name, format="JPEG"):
@@ -69,7 +69,6 @@ class GCPStorage:
 
 if __name__ == "__main__":
     gcp_storage = GCPStorage(bucket_name="course_builder_dataset")
-    gcp_storage.upload_file(
-        "./data/raw/job_desc/AI-ML Engineer.pdf", "job_description/AI-ML Engineer.pdf"
-    )
+    with open("./data/raw/job_desc/AI-ML Engineer.pdf", "rb") as file_obj:
+        gcp_storage.upload_file(file_obj, "job_description/AI-ML Engineer.pdf")
     print(gcp_storage.list_files())
