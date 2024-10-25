@@ -169,8 +169,9 @@ class CourseRecommenderPipeline(DBEmbedder):
         """
         # Apply KMeans clustering using filtered embeddings
         print("Applying KMeans clustering for deduplication...")
-        kmeans = KMeans(n_clusters=num_clusters, random_state=42)
-        cluster_labels = kmeans.fit_predict(np.array([x for x in df_sorted["vector"].values]))
+        data = [x for x in df_sorted["vector"].values]
+        kmeans = KMeans(n_clusters=min(len(data),num_clusters) , random_state=42)
+        cluster_labels = kmeans.fit_predict(np.array(data))
         df_sorted["cluster"] = cluster_labels
 
         # Select the highest weighted score course from each cluster
