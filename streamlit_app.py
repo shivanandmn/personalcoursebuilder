@@ -12,7 +12,7 @@ from src.db.storage import GCPStorage
 from src.utils import convert_nested_dict_keys_to_str
 
 # Streamlit UI
-st.title("Job Recommendation System for Freshers")
+st.title("Courses Recommendation System for Freshers")
 
 st.sidebar.header("Upload Files")
 job_desc_file = st.sidebar.file_uploader("Upload Job Description (PDF)", type=["pdf"])
