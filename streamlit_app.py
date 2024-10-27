@@ -26,9 +26,9 @@ if st.sidebar.button("Submit"):
         # Adding a 30-second wait time with a progress bar
         st.sidebar.write("Reading the files and Getting you personalized recommendations...")
         progress_bar = st.sidebar.progress(0)
-        for i in range(80):
+        for i in range(90):
             time.sleep(1)
-            progress_bar.progress((i + 1) / 80)
+            progress_bar.progress((i + 1) / 90)
 
         # Generate Gap Matrix
         gap_scores, df_gap, parsed_resume, parsed_jd = generate_gap_matrix(
