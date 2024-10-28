@@ -14,15 +14,16 @@ from src.utils import convert_nested_dict_keys_to_str
 # Streamlit UI
 st.title("Courses Recommendation System for Freshers")
 
-st.sidebar.header("Upload Files")
+st.sidebar.header("Upload Job Description and Resume")
 job_desc_file = st.sidebar.file_uploader("Upload Job Description (PDF)", type=["pdf"])
+job_desc_text = st.sidebar.text_area("Or Paste Job Description Text", "")
 resume_file = st.sidebar.file_uploader("Upload Resume (PDF)", type=["pdf"])
 
 db_transaction = DBTransaction(db_name="course_builder")
 gcp_storage = GCPStorage(bucket_name="course_builder_dataset")
 
 if st.sidebar.button("Submit"):
-    if job_desc_file and resume_file:
+    if (job_desc_file or job_desc_text) and resume_file:
         # Adding a 30-second wait time with a progress bar
         st.sidebar.write("Reading the files and Getting you personalized recommendations...")
         progress_bar = st.sidebar.progress(0)
@@ -32,7 +33,7 @@ if st.sidebar.button("Submit"):
 
         # Generate Gap Matrix
         gap_scores, df_gap, parsed_resume, parsed_jd = generate_gap_matrix(
-            resume_file=resume_file, jd_file=job_desc_file
+            resume_file=resume_file, jd_file=job_desc_file, jd_text=job_desc_text
         )
 
         # Initialize Course Recommender Pipeline
@@ -127,12 +128,19 @@ if st.sidebar.button("Submit"):
             st.json(parsed_jd.model_dump_json())
         with st.expander("Parsed Resume Data"):
             st.json(parsed_resume.model_dump_json())
-        job_desc_file.seek(0)
-        jd_url = gcp_storage.upload_file(
-                job_desc_file,
-                destination_blob_name=job_desc_file.name,
-                folder_path="job_description",
-            )
+        if job_desc_file:
+            job_desc_file.seek(0)
+            jd_url = gcp_storage.upload_file(
+                    job_desc_file,
+                    destination_blob_name=job_desc_file.name,
+                    folder_path="job_description",
+                )
+        else:
+            jd_url = gcp_storage.upload_text(
+                    job_desc_text,
+                    destination_blob_name="job_description_text.txt",
+                    folder_path="job_description",
+                )
         resume_file.seek(0)
         resume_url = gcp_storage.upload_file(
                 resume_file,
@@ -150,4 +158,4 @@ if st.sidebar.button("Submit"):
             collection="interactions_data",
         )
     else:
-        st.warning("Please upload both Job Description and Resume files.")
+        st.warning("Please upload both Job Description and Resume files or input text.")
