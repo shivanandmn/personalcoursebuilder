@@ -65,7 +65,12 @@ class GCPStorage:
             prefix=prefix
         )  # List all files in the bucket that start with the prefix
         return [blob.name for blob in blobs]  # Returns a list of file names
-
+        
+    def upload_text(self, text, destination_blob_name, folder_path=""):
+        blob_name = f"{folder_path}/{destination_blob_name}" if folder_path else destination_blob_name
+        blob = self.bucket.blob(blob_name)
+        blob.upload_from_string(text)
+        # print(f"File {blob_name} uploaded to bucket {self.bucket.name}.")
 
 if __name__ == "__main__":
     gcp_storage = GCPStorage(bucket_name="course_builder_dataset")
