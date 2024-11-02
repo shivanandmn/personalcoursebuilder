@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from enum import Enum
+import pandas as pd
 
 
 def extract_pydantic_elements(obj):
