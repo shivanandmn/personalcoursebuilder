@@ -48,7 +48,7 @@ def llm_gap_scores(
         publications=extract_pydantic_elements(publications),
         awards=extract_pydantic_elements(academic_awards),
     )
-    response = llm.invoke(input=prompt, generation_config=dict(temperature=0.3))
+    response = llm.invoke(input=prompt, generation_config=dict(temperature=0.7))
     df = extract_table_from_markdown(response.content)
     df = penalize_passive_skills(df)
     df_skills = df.set_index("Must-Have Skill").sum(1)
@@ -72,7 +72,7 @@ def generate_gap_matrix(resume_file, jd_file, jd_text=None):
         publications=extract_pydantic_elements(parsed_resume.publications),
         awards=extract_pydantic_elements(parsed_resume.academic_awards),
     )
-    response = llm.invoke(input=prompt, generation_config=dict(temperature=0.3))
+    response = llm.invoke(input=prompt, generation_config=dict(temperature=0.7))
     df = extract_table_from_markdown(response.content)
     df = penalize_passive_skills(df)
     df_skills = df.set_index("Must-Have Skill").sum(1)
