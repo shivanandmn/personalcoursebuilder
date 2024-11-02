@@ -58,7 +58,7 @@ def llm_gap_scores(
 
 
 def generate_gap_matrix(resume_file, jd_file, jd_text=None):
-    if jd_text is not None:
+    if jd_text is None:
         jd_text = extract_text_from_pdf(jd_file)
     parsed_jd = parse_job_description(jd_text)
     resume_text = extract_text_from_pdf(resume_file)
