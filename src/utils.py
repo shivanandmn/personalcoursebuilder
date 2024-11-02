@@ -39,5 +39,7 @@ def convert_nested_dict_keys_to_str(d):
         return {str(k): convert_nested_dict_keys_to_str(v) for k, v in d.items()}
     elif isinstance(d, list):
         return [convert_nested_dict_keys_to_str(item) for item in d]
+    elif isinstance(d, (pd.Series, pd.DataFrame)):
+        return {str(k): convert_nested_dict_keys_to_str(v) for k, v in d.to_dict()}
     else:
         return d
