@@ -148,7 +148,7 @@ if st.sidebar.button("Submit"):
                 folder_path="resume_dataset",
             )
         save_data = {
-            k: (convert_nested_dict_keys_to_str(v.to_dict()) if isinstance(v, pd.DataFrame) else v)
+            k: (convert_nested_dict_keys_to_str(v.to_dict()) if isinstance(v, (pd.Series, pd.DataFrame)) else v)
             for k, v in rec_results.items()
         }
         save_data["jd_url"] = jd_url
